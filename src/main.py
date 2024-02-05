@@ -15,10 +15,28 @@ table = Table(title="Time Table")
 action_file_path = ""
 time_file_path = ""
 
-parser = argparse.ArgumentParser()
+if "-h" in argv or "--help" in argv:
+    console.print(
+        """
+[bold green]CreateTT[/bold green]
+[bold red]Usage[/bold red]: [white]python3 main.py [...args][/white]
+
+[bold red]Args[/bold red]:
+    [bold yellow]-h, --help[/bold yellow]     Show help
+    [bold yellow]-a, --action[/bold yellow]   Action file
+    [bold yellow]-t, --time[/bold yellow]     Time file
+    [bold yellow]-d[/bold yellow]             Number of days
+    [bold yellow]-s, --save[/bold yellow]     Save, (html, svg, txt)
+        """
+    )
+    exit(0)
+
+
+parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument("-a", "--action")
 parser.add_argument("-t", "--time")
 parser.add_argument("-d")
+parser.add_argument("-s", "--save")
 
 args = parser.parse_args()
 
@@ -120,5 +138,10 @@ create_time_table(actions, times)
 
 console.print(table)
 
-console.save_html("Time Table.html", theme=MONOKAI)
-console.save_svg("Time Table.svg", theme=MONOKAI)
+if args.save:
+    if args.save == "svg":
+        console.save_svg("Time Table.svg", theme=MONOKAI)
+    elif args.save == "html":
+        console.save_html("Time Table.html", theme=MONOKAI)
+    elif args.save == "txt":
+        console.save_text("Time Table.txt")

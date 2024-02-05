@@ -1,6 +1,8 @@
 from sys import argv
 from sys import exit
 
+import argparse
+
 from random import choice
 
 from rich.console import Console
@@ -13,17 +15,24 @@ table = Table(title="Time Table")
 action_file_path = ""
 time_file_path = ""
 
-if len(argv) > 2:
-    action_file_path = argv[1]
-    time_file_path = argv[2]
+parser = argparse.ArgumentParser()
+parser.add_argument("-a", "--action")
+parser.add_argument("-t", "--time")
+parser.add_argument("-d")
+
+args = parser.parse_args()
+
+if args.action and args.time:
+    action_file_path = args.action
+    time_file_path = args.time
 else:
     console.print("[red bold]Provide path value.[/red bold]")
     exit(1)
 
 columns = 7
 
-if len(argv) > 3 and argv[3] == "-d" and argv[4]:
-    columns = int(argv[4])
+if args.d:
+    columns = int(args.d)
 
 
 def create_table() -> None:

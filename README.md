@@ -47,7 +47,7 @@ python3 src/main.py ./Actions.txt ./Time.txt -d 4
 
 Use `-d` option to add optional days,
 
-![Time Table](https://raw.githubusercontent.com/surajkareppagol/assets-for-projects/main/CreateTT/CreateTT%20Path.png)
+![Time Table](https://raw.githubusercontent.com/surajkareppagol/assets-for-projects/main/CreateTT/CreateTT%20D.png)
 
 ## Is the time fixed ?
 

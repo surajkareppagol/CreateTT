@@ -104,8 +104,8 @@ def create_time_table(actions: list, times: list) -> list:
 
 create_table()
 
-actions = read_action_file("./Actions.txt")
-times = read_time_file("./Time.txt")
+actions = read_action_file(action_file_path)
+times = read_time_file(time_file_path)
 
 create_time_table(actions, times)
 

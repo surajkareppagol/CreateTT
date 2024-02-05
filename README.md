@@ -8,7 +8,7 @@ CreateTT uses two files: one containing the things you want to include in the ti
 
 Once the timetable has been generated, it will be converted into a SVG file and a HTML file.
 
-The `Actions` and `Time` files can be in any form, but below form is prepared.
+The `Actions` and `Time` files can be in any formats, but below format is prepared.
 
 ```txt
 Swim
@@ -48,6 +48,18 @@ python3 src/main.py ./Actions.txt ./Time.txt -d 4
 Use `-d` option to add optional days,
 
 ![Time Table](https://raw.githubusercontent.com/surajkareppagol/assets-for-projects/main/CreateTT/CreateTT%20D.png)
+
+```bash
+python3 src/main.py -h
+```
+
+![Time Table](https://raw.githubusercontent.com/surajkareppagol/assets-for-projects/main/CreateTT/CreateTT%20Help.png)
+
+```bash
+python3 src/main.py ./Actions.txt ./Time.txt -d 4 -s svg
+```
+
+Use `-s` option to export in different formats, available are `svg`, `html`, `txt`.
 
 ## Is the time fixed ?
 

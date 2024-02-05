@@ -20,6 +20,12 @@ Code
 10:00 - 11:00
 ```
 
+Create `venv` using,
+
+```bash
+git clone 
+```
+
 ```bash
 python3 src/main.py ./Actions.txt ./Time.txt
 ```

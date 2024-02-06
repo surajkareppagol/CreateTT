@@ -5,6 +5,12 @@ from rich.table import Table
 
 class TimeTable:
     def __init__(self) -> None:
+        """
+        Init TimeTable()
+        Usage: table = TimeTable()
+        Return: None
+        """
+
         self.table = Table(title="Time Table")
         self.columns = 7
 
@@ -33,7 +39,7 @@ class TimeTable:
     def select_actions(self, actions) -> tuple:
         """
         Select actions randomly.
-        Usage: select_actions(actions: list)
+        Usage: select_actions(actions)
         Return: tuple
         """
 
@@ -43,7 +49,7 @@ class TimeTable:
     def create_time_table(self, actions: list, times: list) -> None:
         """
         Create time table.
-        Usage: create_time_file(actions: list, times: list)
+        Usage: create_time_file(actions, times)
         Return: None
         """
 

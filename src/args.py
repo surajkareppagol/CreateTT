@@ -1,11 +1,24 @@
 import argparse
+from typing import NameSpace
 
 
 class ArgsParse:
     def __init__(self) -> None:
+        """
+        Init ArgsParse()
+        Usage: args = ArgsParse()
+        Return: None
+        """
+
         self.parser = argparse.ArgumentParser(add_help=False)
 
-    def parse(self):
+    def parse(self) -> NameSpace:
+        """
+        Parse arguments.
+        Usage: ArgsParse.parse()
+        Return: NameSpace
+        """
+
         self.parser.add_argument("-a", "--action")
         self.parser.add_argument("-t", "--time")
         self.parser.add_argument("-d")

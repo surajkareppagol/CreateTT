@@ -1,11 +1,17 @@
 class File:
     def __init__(self) -> None:
+        """
+        Init File()
+        Usage: file = File()
+        Return: None
+        """
+
         pass
 
     def read_action_file(self, path: str) -> list:
         """
         Read action file.
-        Usage: read_action_file(path: str)
+        Usage: read_action_file(path)
         Return: list
         """
 
@@ -18,7 +24,7 @@ class File:
     def read_time_file(self, path: str) -> list:
         """
         Read time file.
-        Usage: read_time_file(path: str)
+        Usage: read_time_file(path)
         Return: list
         """
 

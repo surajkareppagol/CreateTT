@@ -63,7 +63,7 @@ Use `-s` option to export in different formats, available are `svg`, `html`, `tx
 
 ## Is the time fixed ?
 
-No, in the console, you can edit the time and subject by yourself. (Adding Soon)
+No, in the console, you can edit the time and action by yourself. (Adding Soon)
 
 ## What is used in this ?
 

@@ -1,7 +1,7 @@
 from sys import argv, exit
 
 from args import ArgsParse
-from console import Console
+from console import Terminal
 from error import Error
 from file import File
 from table import TimeTable
@@ -13,7 +13,7 @@ args = ArgsParse().parse()
 error = Error()
 table = TimeTable()
 file = File()
-console = Console()
+console = Terminal()
 
 if args.help or len(argv) == 1:
     console.print(error.help())
@@ -43,7 +43,7 @@ else:
 
 console.print(table.table)
 
-console.save(args.save)
+console.save_as(args.save)
 
 console.print(
     f"\n[bold green]Success[/bold green]: Saved as [bold yellow]{args.save}[/bold yellow] file."

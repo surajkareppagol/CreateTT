@@ -4,3 +4,6 @@ venv
 *.txt
 *.html
 *.svg
+*.md
+
+*/__pycache__

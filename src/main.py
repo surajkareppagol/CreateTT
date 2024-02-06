@@ -15,7 +15,7 @@ table = Table(title="Time Table")
 action_file_path = ""
 time_file_path = ""
 
-if "-h" in argv or "--help" in argv:
+if "-h" in argv or "--help" in argv or len(argv) == 1:
     console.print(
         """
 [bold green]CreateTT[/bold green]
@@ -36,7 +36,7 @@ parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument("-a", "--action")
 parser.add_argument("-t", "--time")
 parser.add_argument("-d")
-parser.add_argument("-s", "--save")
+parser.add_argument("-s", "--save", default="svg")
 
 args = parser.parse_args()
 
@@ -44,7 +44,7 @@ if args.action and args.time:
     action_file_path = args.action
     time_file_path = args.time
 else:
-    console.print("[red bold]Provide path value.[/red bold]")
+    console.print("[red bold]Error[/red bold]: Provide path value.")
     exit(1)
 
 columns = 7
@@ -96,7 +96,6 @@ def read_action_file(path: str) -> list:
 
     with open(path) as file:
         data = file.readlines()
-        # Step 2 : Create a python data structure from the data
         actions = [action.strip() for action in data]
 
     return actions
@@ -111,7 +110,6 @@ def read_time_file(path: str) -> list:
 
     with open(path) as file:
         data = file.readlines()
-        # Step 4 : Create a python data structure from the data
         times = [time.strip() for time in data]
 
     return times

@@ -34,7 +34,7 @@ pip install -r requirements.txt
 ```
 
 ```bash
-python3 src/main.py ./Actions.txt ./Time.txt
+python3 src/main.py -a ./Actions.txt -t ./Time.txt
 ```
 
 Provide both `Actions.txt` and `Time.txt` file paths,
@@ -42,7 +42,7 @@ Provide both `Actions.txt` and `Time.txt` file paths,
 ![Time Table](https://raw.githubusercontent.com/surajkareppagol/assets-for-projects/main/CreateTT/CreateTT%20Path.png)
 
 ```bash
-python3 src/main.py ./Actions.txt ./Time.txt -d 4
+python3 src/main.py -a ./Actions.txt -t ./Time.txt -d 4
 ```
 
 Use `-d` option to add optional days,
@@ -56,7 +56,7 @@ python3 src/main.py -h
 ![Time Table](https://raw.githubusercontent.com/surajkareppagol/assets-for-projects/main/CreateTT/CreateTT%20Help.png)
 
 ```bash
-python3 src/main.py ./Actions.txt ./Time.txt -d 4 -s svg
+python3 src/main.py -a ./Actions.txt -t ./Time.txt -d 4 -s svg
 ```
 
 Use `-s` option to export in different formats, available are `svg`, `html`, `txt`.

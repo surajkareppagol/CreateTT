@@ -1,140 +1,45 @@
-from sys import argv
-from sys import exit
-
-import argparse
-
-from random import choice
+from sys import argv, exit
 
 from rich.console import Console
-from rich.table import Table
 from rich.terminal_theme import MONOKAI
 
+from args import ArgsParse
+from error import Error
+from file import File
+from table import TimeTable
+
 console = Console(record=True)
-table = Table(title="Time Table")
 
 action_file_path = ""
 time_file_path = ""
 
-if "-h" in argv or "--help" in argv or len(argv) == 1:
-    console.print(
-        """
-[bold green]CreateTT[/bold green]
-[bold red]Usage[/bold red]: [white]python3 main.py [...args][/white]
+args = ArgsParse().parse()
+error = Error()
+table = TimeTable()
+file = File()
 
-[bold red]Args[/bold red]:
-    [bold yellow]-h, --help[/bold yellow]     Show help
-    [bold yellow]-a, --action[/bold yellow]   Action file
-    [bold yellow]-t, --time[/bold yellow]     Time file
-    [bold yellow]-d[/bold yellow]             Number of days
-    [bold yellow]-s, --save[/bold yellow]     Save, (html, svg, txt)
-        """
-    )
+if args.help or len(argv) == 1:
+    console.print(error.help())
     exit(0)
-
-
-parser = argparse.ArgumentParser(add_help=False)
-parser.add_argument("-a", "--action")
-parser.add_argument("-t", "--time")
-parser.add_argument("-d")
-parser.add_argument("-s", "--save", default="svg")
-
-args = parser.parse_args()
 
 if args.action and args.time:
     action_file_path = args.action
     time_file_path = args.time
 else:
-    console.print("[red bold]Error[/red bold]: Provide path value.")
+    console.print(error.file())
     exit(1)
 
-columns = 7
-
 if args.d:
-    columns = int(args.d)
+    table.columns = int(args.d)
 
+table.create_table()
 
-def create_table() -> None:
-    """
-    Create table from rich.
-    Usage: create_table()
-    Return: None
-    """
+actions = file.read_action_file(action_file_path)
+times = file.read_time_file(time_file_path)
 
-    week = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-    ]
+table.create_time_table(actions, times)
 
-    table.add_column("Time", justify="center")
-
-    for column in range(columns):
-        table.add_column(week[column], justify="center")
-
-
-def select_actions(actions) -> tuple:
-    """
-    Select actions randomly.
-    Usage: select_actions(actions: list)
-    Return: tuple
-    """
-
-    selected_actions = [choice(actions) for _ in range(columns)]
-    return tuple(selected_actions)
-
-
-def read_action_file(path: str) -> list:
-    """
-    Read action file.
-    Usage: read_action_file(path: str)
-    Return: list
-    """
-
-    with open(path) as file:
-        data = file.readlines()
-        actions = [action.strip() for action in data]
-
-    return actions
-
-
-def read_time_file(path: str) -> list:
-    """
-    Read time file.
-    Usage: read_time_file(path: str)
-    Return: list
-    """
-
-    with open(path) as file:
-        data = file.readlines()
-        times = [time.strip() for time in data]
-
-    return times
-
-
-def create_time_table(actions: list, times: list) -> list:
-    """
-    Create time table.
-    Usage: create_time_file(actions: list, times: list)
-    Return: list
-    """
-
-    for time in times:
-        selected_actions = select_actions(actions)
-        table.add_row(time, *(selected_actions))
-
-
-create_table()
-
-actions = read_action_file(action_file_path)
-times = read_time_file(time_file_path)
-
-create_time_table(actions, times)
-
-console.print(table)
+console.print(table.table)
 
 if args.save:
     if args.save == "svg":

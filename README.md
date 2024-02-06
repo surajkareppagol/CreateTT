@@ -61,6 +61,14 @@ python3 src/main.py -a ./Actions.txt -t ./Time.txt -d 4 -s svg
 
 Use `-s` option to export in different formats, available are `svg`, `html`, `txt`.
 
+```bash
+python3 src/main.py -a ./Actions.txt -t ./Time.txt -i
+```
+
+Use `-i` option for an interactive mode, users will be able to select the actions.
+
+![Time Table](https://raw.githubusercontent.com/surajkareppagol/assets-for-projects/main/CreateTT/CreateTT%20I.png)
+
 ## Is the time fixed ?
 
 No, in the console, you can edit the time and action by yourself. (Adding Soon)

@@ -12,14 +12,33 @@ class Console:
 
         self.console = RConsole(record=True)
 
-    def print(self, str: str) -> None:
+    def print(self, string: str) -> None:
+        """
+        Print to the terminal.
+        Usage: console.print(string)
+        Return: None
+        """
+
+        self.console.print(string)
+
+    def input(self, string: str) -> str:
         """
         Print to the terminal.
         Usage: console.print(str)
         Return: None
         """
 
-        self.console.print(str)
+        input_value = self.console.input(string)
+        return input_value
+
+    def clear(self) -> None:
+        """
+        Clear the terminal.
+        Usage: console.clear()
+        Return: None
+        """
+
+        self.console.clear()
 
     def save(self, format: str) -> None:
         """

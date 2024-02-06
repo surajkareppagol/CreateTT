@@ -1,5 +1,4 @@
 import argparse
-from typing import NameSpace
 
 
 class ArgsParse:
@@ -12,7 +11,7 @@ class ArgsParse:
 
         self.parser = argparse.ArgumentParser(add_help=False)
 
-    def parse(self) -> NameSpace:
+    def parse(self):
         """
         Parse arguments.
         Usage: ArgsParse.parse()

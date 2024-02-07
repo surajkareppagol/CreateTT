@@ -1,8 +1,9 @@
 from random import choice
 
+from rich import box
 from rich.table import Column, Table
 
-from console import Console
+from console import Terminal
 
 
 class TimeTable:
@@ -13,17 +14,27 @@ class TimeTable:
         Return: None
         """
 
-        self.table = Table(title="Time Table")
+        self.table = Table(box=box.DOUBLE_EDGE, highlight=True)
         self.columns = 7
         self.week = [
-            "Sunday",
             "Monday",
             "Tuesday",
             "Wednesday",
             "Thursday",
             "Friday",
             "Saturday",
+            "Sunday",
         ]
+
+        self.console = Terminal()
+
+    def set_columns(self, columns: int) -> None:
+        if columns > 7:
+            self.columns = 7
+        elif columns < 1:
+            self.columns = 1
+        else:
+            self.columns = columns
 
     def create_table(self) -> None:
         """
@@ -54,6 +65,12 @@ class TimeTable:
         Return: None
         """
 
+        self.console.clear()
+
+        self.console.print_panel(
+            "[bold yellow]CreateTT[/bold yellow] - Time Table Builder"
+        )
+
         for time in times:
             selected_actions = self.select_actions(actions)
             self.table.add_row(time, *(selected_actions))
@@ -61,11 +78,11 @@ class TimeTable:
     def create_time_table_interactive(self, actions: list, times: list) -> None:
         """
         Create time table with user input.
-        Usage: create_time_file_interactive()
+        Usage: create_time_file_interactive(actions, times)
         Return: None
         """
 
-        console = Console()
+        self.console.clear()
 
         actions_table = Table(Column(header="Index"), Column(header="Action"))
         selected_actions = []
@@ -73,29 +90,39 @@ class TimeTable:
         for index, action in enumerate(actions, start=1):
             actions_table.add_row(str(index), action)
 
-        time_index = 0
+        row_index = 0
 
         while True:
-            for index in range(self.columns):
-                console.print(self.table)
-                console.print(actions_table)
+            column_index = 0
+            while column_index < self.columns:
+                self.console.print_panel(
+                    "[bold yellow]CreateTT[/bold yellow] - Time Table Builder"
+                )
+                self.console.print(self.table)
+                self.console.print(actions_table)
 
-                console.print(
+                self.console.print(
                     f"[bold yellow]Selected Actions[/bold yellow]: {', '.join(selected_actions)}\n"
                 )
 
-                action_index = console.input(
-                    f"[bold white]Enter the [yellow]index[/yellow] of the action for [yellow]{self.week[index]}[/yellow] at [yellow]{times[time_index]}[/yellow][/bold white]: "
+                action_index = self.console.input(
+                    f"[bold white]Enter the [yellow]index[/yellow] of the action for [yellow]{self.week[column_index]}[/yellow] at [yellow]{times[row_index]}[/yellow][/bold white]: "
                 )
 
-                selected_actions.append(actions[int(action_index) - 1])
-                console.clear()
+                if int(action_index) > len(actions):
+                    self.console.clear()
+                    continue
 
-            self.table.add_row(times[time_index], *(selected_actions))
+                selected_actions.append(actions[int(action_index) - 1])
+                column_index += 1
+
+                self.console.clear()
+
+            self.table.add_row(times[row_index], *(selected_actions))
             selected_actions.clear()
 
-            time_index += 1
+            row_index += 1
 
-            if time_index >= len(times):
-                console.clear()
+            if row_index >= len(times):
+                self.console.clear()
                 break

@@ -32,4 +32,14 @@ class Error:
         Usage: error.file()
         Return: str
         """
+
         return "[red bold]Error[/red bold]: Provide path value."
+
+    def keyboard_interrupt(self) -> str:
+        """
+        Return file error string.
+        Usage: error.file()
+        Return: str
+        """
+
+        return "\n\n[red bold]Error[/red bold]: Pressed [bold red]CTRL + C[/bold red]."

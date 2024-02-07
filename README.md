@@ -4,11 +4,15 @@ I have probably created a timetable at least 10 times or more, but I didn't stic
 
 ## How to use CreateTT ?
 
-CreateTT uses two files: one containing the things you want to include in the timetable (the actions) and another file containing different times at which you want to do something. So, in the end, it is just a random action chooser from the list.
+CreateTT uses two files: one containing the things you want to include in the timetable (the actions) and another file containing different times at which you want to do something.
 
-Once the timetable has been generated, it will be converted into a SVG file and a HTML file.
+Once the timetable has been generated, it can be saved as `SVG`, `HTML` or `TXT` files.
 
-The `Actions` and `Time` files can be in any formats, but below format is prepared.
+### What are `Action` and `Time` files ?
+
+The `Actions` and `Time` files contain the data needed to create time table, because `CreateTT` doesn't know what user does, so these files are used as data sources.
+
+These files can be in any formats, but below format is preferred.
 
 ```txt
 Swim
@@ -20,7 +24,7 @@ Code
 10:00 - 11:00
 ```
 
-Create `venv` using,
+### How to set up `VENV` ?
 
 ```bash
 git clone https://github.com/surajkareppagol/CreateTT
@@ -33,6 +37,14 @@ source ./venv/bin/activate
 pip install -r requirements.txt
 ```
 
+To deactivate,
+
+```bash
+deactivate
+```
+
+### How to use `CreateTT` through command line ?
+
 ```bash
 python3 src/main.py -a ./Actions.txt -t ./Time.txt
 ```
@@ -41,25 +53,35 @@ Provide both `Actions.txt` and `Time.txt` file paths,
 
 ![Time Table](https://raw.githubusercontent.com/surajkareppagol/assets-for-projects/main/CreateTT/CreateTT%20Path.png)
 
+---
+
 ```bash
 python3 src/main.py -a ./Actions.txt -t ./Time.txt -d 4
 ```
 
-Use `-d` option to add optional days,
+Use `-d` option to provide number of days,
 
 ![Time Table](https://raw.githubusercontent.com/surajkareppagol/assets-for-projects/main/CreateTT/CreateTT%20D.png)
+
+---
 
 ```bash
 python3 src/main.py -h
 ```
 
+Get some help with `-h`,
+
 ![Time Table](https://raw.githubusercontent.com/surajkareppagol/assets-for-projects/main/CreateTT/CreateTT%20Help.png)
+
+---
 
 ```bash
 python3 src/main.py -a ./Actions.txt -t ./Time.txt -d 4 -s svg
 ```
 
 Use `-s` option to export in different formats, available are `svg`, `html`, `txt`.
+
+---
 
 ```bash
 python3 src/main.py -a ./Actions.txt -t ./Time.txt -i
@@ -75,8 +97,8 @@ No, in the console, you can edit the time and action by yourself. (Adding Soon)
 
 ## What is used in this ?
 
-`Python 3` is the main component; then, for styling in the terminal, the `Rich` library is used.
+`Python 3`, and for styling in the terminal, the `Rich` library is used.
 
 ## What next ?
 
-It is not a complete implementation their are still many features that needs to be added, such as the ability to customize time table, provide time in any format, proper management of console arguments, etcetera.
+It is not a complete implementation; there are still many features that need to be added, such as the ability to customize the timetable, provide time in any format, etcetera.

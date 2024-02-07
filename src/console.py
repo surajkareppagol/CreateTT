@@ -1,4 +1,5 @@
 from rich.console import Console
+from rich.panel import Panel
 from rich.terminal_theme import MONOKAI
 
 
@@ -24,3 +25,12 @@ class Terminal(Console):
             super().save_html("Time Table.html", theme=MONOKAI)
         elif format == "txt":
             super().save_text("Time Table.txt")
+
+    def print_panel(self, string: str) -> None:
+        """
+        Print panel from console.
+        Usage: console.print_panel(string)
+        Return: None
+        """
+
+        super().print(Panel(string))

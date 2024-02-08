@@ -66,16 +66,6 @@ Use `-d` option to provide number of days,
 ---
 
 ```bash
-python3 src/main.py -h
-```
-
-Get some help with `-h`,
-
-![Time Table](https://raw.githubusercontent.com/surajkareppagol/assets-for-projects/main/CreateTT/CreateTT%20Help.png)
-
----
-
-```bash
 python3 src/main.py -a ./Actions.txt -t ./Time.txt -d 4 -s svg
 ```
 
@@ -90,6 +80,26 @@ python3 src/main.py -a ./Actions.txt -t ./Time.txt -i
 Use `-i` option for an interactive mode, users will be able to select the actions.
 
 ![Time Table](https://raw.githubusercontent.com/surajkareppagol/assets-for-projects/main/CreateTT/CreateTT%20I.png)
+
+---
+
+```bash
+python3 src/main.py -a ./Actions.txt -t ./Time.txt -c
+```
+
+Use `-c` option for customized mode, control the table using `w`, `a`, `s`, `d` and change data.
+
+![Time Table](https://raw.githubusercontent.com/surajkareppagol/assets-for-projects/main/CreateTT/CreateTT%20C.png)
+
+---
+
+```bash
+python3 src/main.py -h
+```
+
+Get some help with `-h`,
+
+![Time Table](https://raw.githubusercontent.com/surajkareppagol/assets-for-projects/main/CreateTT/CreateTT%20Help.png)
 
 ## Is the time fixed ?
 

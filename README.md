@@ -79,7 +79,7 @@ Get some help with `-h`,
 python3 src/main.py -a ./Actions.txt -t ./Time.txt -d 4 -s svg
 ```
 
-Use `-s` option to export in different formats, available are `svg`, `html`, `txt`.
+Use `-s` option to export in different formats, available are `svg`, `html`, `txt` or `all`.
 
 ---
 

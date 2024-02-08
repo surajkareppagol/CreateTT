@@ -84,16 +84,13 @@ class TimeTable:
         Return: Table()
         """
 
-        actions_table = Table(
-            Column(header="Index", justify="center"),
-            Column(header="Action", justify="left"),
-        )
+        actions_table = Table(box=box.SQUARE)
+        actions.append("Empty")
 
-        for index, action in enumerate(actions, start=1):
-            actions_table.add_row(str(index), action)
+        for i in range(1, len(actions) + 1):
+            actions_table.add_column(str(i))
 
-        actions_table.add_row(str(len(actions) + 1), "Empty")
-
+        actions_table.add_row(*(tuple(actions)))
         return actions_table
 
     def create_time_table_interactive(self, actions: list, times: list) -> None:
@@ -107,7 +104,7 @@ class TimeTable:
 
         selected_actions = []
 
-        actions_table = self.create_actions_table(actions)
+        actions_table = self.create_actions_table(actions[:])
 
         row_index = 0
 
@@ -198,7 +195,7 @@ class TimeTable:
 
         table_data = {}
 
-        actions_table = self.create_actions_table(actions)
+        actions_table = self.create_actions_table(actions[:])
 
         for time in times:
             table_data[time] = [choice(actions) for _ in range(self.columns)]

@@ -33,16 +33,11 @@ class Terminal(Console):
         Return: None
         """
 
-        export_all = False
-
-        if format == "all":
-            export_all = True
-
-        if format == "svg" or export_all:
+        if format == "svg":
             super().save_svg("Time Table.svg", theme=MONOKAI)
-        if format == "html" or export_all:
+        if format == "html":
             super().save_html("Time Table.html", theme=MONOKAI)
-        if format == "txt" or export_all:
+        if format == "txt":
             super().save_text("Time Table.txt")
 
         super().print(

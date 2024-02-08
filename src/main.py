@@ -6,9 +6,6 @@ from error import Error
 from file import File
 from table import TimeTable
 
-action_file_path = ""
-time_file_path = ""
-
 args = ArgsParse().parse()
 error = Error()
 table = TimeTable()
@@ -16,7 +13,7 @@ file = File()
 console = Terminal()
 
 if args.help or len(argv) == 1:
-    console.print(error.help())
+    console.print(console.help)
     exit(0)
 
 if args.d:
@@ -25,30 +22,25 @@ if args.d:
 if args.action and args.time:
     table.create_table()
 
-    action_file_path = args.action
-    time_file_path = args.time
-
-    actions = file.read_action_file(action_file_path)
-    times = file.read_time_file(time_file_path)
-
     try:
+        actions = file.read_action_file(args.action)
+        times = file.read_time_file(args.time)
         if args.interactive:
             table.create_time_table_interactive(actions, times)
         elif not args.interactive:
             table.create_time_table(actions, times)
     except KeyboardInterrupt:
-        console.print(error.keyboard_interrupt())
+        console.print(error.keyboard_interrupt_error)
+        exit(1)
+    except FileNotFoundError:
+        console.print(error.file_not_found_error)
         exit(1)
 
 else:
-    console.print(error.file())
+    console.print(error.file_error)
     exit(1)
 
 
 console.print(table.table)
 
 console.save_as(args.save)
-
-console.print(
-    f"\n[bold green]Success[/bold green]: Saved as [bold yellow]{args.save}[/bold yellow] file."
-)

@@ -12,6 +12,19 @@ class Terminal(Console):
         """
         super().__init__(record=True)
 
+        self.help = """
+[bold green]CreateTT[/bold green]
+[bold red]Usage[/bold red]: [white]python3 main.py [...args][/white]
+
+[bold red]Args[/bold red]:
+    [bold yellow]-h, --help[/bold yellow]            Show help
+    [bold yellow]-a, --action[/bold yellow]          Action file
+    [bold yellow]-t, --time[/bold yellow]            Time file
+    [bold yellow]-d[/bold yellow]                    Number of days
+    [bold yellow]-s, --save[/bold yellow]            Save, (html, svg, txt)
+    [bold yellow]-i, --interactive[/bold yellow]     Interactive mode
+        """
+
     def save_as(self, format: str) -> None:
         """
         Save as SVG, HTML or TXT.
@@ -19,12 +32,21 @@ class Terminal(Console):
         Return: None
         """
 
-        if format == "svg":
+        export_all = False
+
+        if format == "all":
+            export_all = True
+
+        if format == "svg" or export_all:
             super().save_svg("Time Table.svg", theme=MONOKAI)
-        elif format == "html":
+        if format == "html" or export_all:
             super().save_html("Time Table.html", theme=MONOKAI)
-        elif format == "txt":
+        if format == "txt" or export_all:
             super().save_text("Time Table.txt")
+
+        super().print(
+            f"\n[bold green]Success[/bold green]: Saved as [bold yellow]{format}[/bold yellow] file."
+        )
 
     def print_panel(self, string: str) -> None:
         """

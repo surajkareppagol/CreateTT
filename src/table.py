@@ -1,5 +1,8 @@
 from random import choice
+from sys import exit
+from time import sleep
 
+import getch
 from rich import box
 from rich.table import Column, Table
 
@@ -105,11 +108,23 @@ class TimeTable:
                     f"[bold yellow]Selected Actions[/bold yellow]: {', '.join(selected_actions)}\n"
                 )
 
-                action_index = self.console.input(
-                    f"[bold white]Enter the [yellow]index[/yellow] of the action for [yellow]{self.week[column_index]}[/yellow] at [yellow]{times[row_index]}[/yellow][/bold white]: "
+                self.console.print(
+                    f"[bold white]Enter the [yellow]index[/yellow] (or [yellow]b[/yellow]) of the action for [yellow]{self.week[column_index]}[/yellow] at [yellow]{times[row_index]}[/yellow][/bold white]: ",
+                    end="",
                 )
 
-                if int(action_index) > len(actions):
+                try:
+                    action_index = getch.getche()
+                    sleep(0.1)
+
+                    if action_index == "b" and len(selected_actions) > 0:
+                        selected_actions.pop()
+                        self.console.clear()
+                        continue
+                    elif int(action_index) > len(actions):
+                        self.console.clear()
+                        continue
+                except ValueError:
                     self.console.clear()
                     continue
 

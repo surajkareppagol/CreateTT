@@ -1,5 +1,4 @@
 from random import choice
-from sys import exit
 from time import sleep
 
 import getch
@@ -85,10 +84,15 @@ class TimeTable:
         Return: Table()
         """
 
-        actions_table = Table(Column(header="Index"), Column(header="Action"))
+        actions_table = Table(
+            Column(header="Index", justify="center"),
+            Column(header="Action", justify="left"),
+        )
 
         for index, action in enumerate(actions, start=1):
             actions_table.add_row(str(index), action)
+
+        actions_table.add_row(str(len(actions) + 1), "Empty")
 
         return actions_table
 
@@ -135,14 +139,18 @@ class TimeTable:
 
                         column_index -= 1
                         continue
-                    elif int(action_index) > len(actions):
+                    elif int(action_index) > len(actions) + 1:
                         self.console.clear()
                         continue
                 except ValueError:
                     self.console.clear()
                     continue
 
-                selected_actions.append(actions[int(action_index) - 1])
+                selected_actions.append(
+                    actions[int(action_index) - 1]
+                    if int(action_index) <= len(actions)
+                    else "Empty"
+                )
                 column_index += 1
 
                 self.console.clear()
@@ -163,7 +171,7 @@ class TimeTable:
         Return: None
         """
 
-        self.table = Table()
+        self.table = Table(box=box.DOUBLE_EDGE, highlight=True)
         self.create_table()
 
         for key, value in table_data.items():
@@ -207,24 +215,18 @@ class TimeTable:
                 "\nUse ([bold yellow]w, a, s, d, q[/bold yellow]) to select cell, and select [bold yellow]index[/bold yellow] to change cell value.\n"
             )
 
-            for timeI, time in enumerate(times):
-                selected_actions = []
+            for key, value in table_data_copy.items():
+                table_data[key] = value[:]
 
-                for i in range(self.columns):
-                    if timeI == current_selected_time and i == current_selected_action:
-                        formatted_string = self.format_action_string(
-                            table_data_copy[time][i], "red"
-                        )
-                        selected_actions.append(formatted_string)
-                        continue
+            selected_string = table_data_copy[times[current_selected_time]][
+                current_selected_action
+            ]
 
-                    formatted_string = self.format_action_string(
-                        table_data_copy[time][i], "white"
-                    )
-                    selected_actions.append(formatted_string)
+            formatted_string = self.format_action_string(selected_string, "red")
 
-                del table_data[time]
-                table_data[time] = selected_actions
+            table_data[times[current_selected_time]][
+                current_selected_action
+            ] = formatted_string
 
             self.build_custom_table(table_data)
             self.console.print(self.table)
@@ -233,10 +235,14 @@ class TimeTable:
             try:
                 index = getch.getch()
 
-                if index.isdigit() and int(index) <= len(actions):
+                if index.isdigit() and int(index) <= len(actions) + 1:
                     table_data_copy[times[current_selected_time]][
                         current_selected_action
-                    ] = actions[int(index) - 1]
+                    ] = (
+                        actions[int(index) - 1]
+                        if int(index) <= len(actions)
+                        else "Empty"
+                    )
 
                 if index == "d" and current_selected_action < self.columns - 1:
                     current_selected_action += 1

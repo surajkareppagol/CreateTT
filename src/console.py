@@ -23,6 +23,7 @@ class Terminal(Console):
     [bold yellow]-d[/bold yellow]                    Number of days
     [bold yellow]-s, --save[/bold yellow]            Save, (html, svg, txt)
     [bold yellow]-i, --interactive[/bold yellow]     Interactive mode
+    [bold yellow]-c, --customize[/bold yellow]      Customize mode
         """
 
     def save_as(self, format: str) -> None:

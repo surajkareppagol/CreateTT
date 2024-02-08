@@ -78,6 +78,20 @@ class TimeTable:
             selected_actions = self.select_actions(actions)
             self.table.add_row(time, *(selected_actions))
 
+    def create_actions_table(self, actions):
+        """
+        Create actions table.
+        Usage: create_actions_table(actions)
+        Return: Table()
+        """
+
+        actions_table = Table(Column(header="Index"), Column(header="Action"))
+
+        for index, action in enumerate(actions, start=1):
+            actions_table.add_row(str(index), action)
+
+        return actions_table
+
     def create_time_table_interactive(self, actions: list, times: list) -> None:
         """
         Create time table with user input.
@@ -87,11 +101,9 @@ class TimeTable:
 
         self.console.clear()
 
-        actions_table = Table(Column(header="Index"), Column(header="Action"))
         selected_actions = []
 
-        for index, action in enumerate(actions, start=1):
-            actions_table.add_row(str(index), action)
+        actions_table = self.create_actions_table(actions)
 
         row_index = 0
 
@@ -120,6 +132,8 @@ class TimeTable:
                     if action_index == "b" and len(selected_actions) > 0:
                         selected_actions.pop()
                         self.console.clear()
+
+                        column_index -= 1
                         continue
                     elif int(action_index) > len(actions):
                         self.console.clear()
@@ -139,5 +153,106 @@ class TimeTable:
             row_index += 1
 
             if row_index >= len(times):
+                self.console.clear()
+                break
+
+    def build_custom_table(self, table_data) -> None:
+        """
+        Build custom table.
+        Usage: build_custom_table(table_data)
+        Return: None
+        """
+
+        self.table = Table()
+        self.create_table()
+
+        for key, value in table_data.items():
+            self.table.add_row(key, *(tuple(value)))
+
+    def format_action_string(self, string, color) -> str:
+        """
+        Build custom table.
+        Usage: format_action_string(string, color)
+        Return: str
+        """
+
+        return f"[bold {color}]{string}[/bold {color}]"
+
+    def customize_table(self, actions, times) -> None:
+        """
+        Build and customize table.
+        Usage: customize_table(actions, times)
+        Return: None
+        """
+
+        current_selected_time = 0
+        current_selected_action = 0
+
+        table_data = {}
+
+        actions_table = self.create_actions_table(actions)
+
+        for time in times:
+            table_data[time] = [choice(actions) for _ in range(self.columns)]
+
+        table_data_copy = table_data.copy()
+
+        while True:
+            self.console.clear()
+            self.console.print_panel(
+                "[bold yellow]CreateTT[/bold yellow] - Time Table Builder"
+            )
+
+            self.console.print(
+                "\nUse ([bold yellow]w, a, s, d, q[/bold yellow]) to select cell, and select [bold yellow]index[/bold yellow] to change cell value.\n"
+            )
+
+            for timeI, time in enumerate(times):
+                selected_actions = []
+
+                for i in range(self.columns):
+                    if timeI == current_selected_time and i == current_selected_action:
+                        formatted_string = self.format_action_string(
+                            table_data_copy[time][i], "red"
+                        )
+                        selected_actions.append(formatted_string)
+                        continue
+
+                    formatted_string = self.format_action_string(
+                        table_data_copy[time][i], "white"
+                    )
+                    selected_actions.append(formatted_string)
+
+                del table_data[time]
+                table_data[time] = selected_actions
+
+            self.build_custom_table(table_data)
+            self.console.print(self.table)
+            self.console.print(actions_table)
+
+            try:
+                index = getch.getch()
+
+                if index.isdigit() and int(index) <= len(actions):
+                    table_data_copy[times[current_selected_time]][
+                        current_selected_action
+                    ] = actions[int(index) - 1]
+
+                if index == "d" and current_selected_action < self.columns - 1:
+                    current_selected_action += 1
+
+                if index == "a" and current_selected_action > 0:
+                    current_selected_action -= 1
+
+                if index == "w" and current_selected_time > 0:
+                    current_selected_time -= 1
+
+                if index == "s" and current_selected_time < len(times) - 1:
+                    current_selected_time += 1
+            except ValueError:
+                self.console.clear()
+                continue
+
+            if index == "q":
                 self.console.clear()
                 break

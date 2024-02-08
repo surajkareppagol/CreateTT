@@ -25,10 +25,14 @@ if args.action and args.time:
     try:
         actions = file.read_action_file(args.action)
         times = file.read_time_file(args.time)
+
         if args.interactive:
             table.create_time_table_interactive(actions, times)
+        elif args.customize:
+            table.customize_table(actions, times)
         elif not args.interactive:
             table.create_time_table(actions, times)
+
     except KeyboardInterrupt:
         console.print(error.keyboard_interrupt_error)
         exit(1)
@@ -42,5 +46,4 @@ else:
 
 
 console.print(table.table)
-
 console.save_as(args.save)

@@ -1,9 +1,9 @@
 from random import choice
 from time import sleep
 
-import getch
+from getch import getche
 from rich import box
-from rich.table import Column, Table
+from rich.table import Table
 
 from console import Terminal
 
@@ -27,6 +27,7 @@ class TimeTable:
             "Saturday",
             "Sunday",
         ]
+        self.actions = 0
 
         self.console = Terminal()
 
@@ -108,6 +109,8 @@ class TimeTable:
 
         row_index = 0
 
+        self.actions = len(actions)
+
         while True:
             column_index = 0
             while column_index < self.columns:
@@ -127,8 +130,11 @@ class TimeTable:
                 )
 
                 try:
-                    action_index = getch.getche()
-                    sleep(0.1)
+                    if self.actions > 9:
+                        action_index = self.console.input()
+                    else:
+                        action_index = getche()
+                        sleep(0.2)
 
                     if action_index == "b" and len(selected_actions) > 0:
                         selected_actions.pop()
@@ -197,6 +203,8 @@ class TimeTable:
 
         actions_table = self.create_actions_table(actions[:])
 
+        self.actions = len(actions)
+
         for time in times:
             table_data[time] = [choice(actions) for _ in range(self.columns)]
 
@@ -226,11 +234,21 @@ class TimeTable:
             ] = formatted_string
 
             self.build_custom_table(table_data)
+            sleep(0.1)
             self.console.print(self.table)
             self.console.print(actions_table)
 
             try:
-                index = getch.getch()
+                if self.actions > 9:
+                    index = self.console.input(
+                        "Number of [bold yellow]Actions[/bold yellow] are more than 9, so press [bold yellow]Enter[/bold yellow], after the input: "
+                    )
+                else:
+                    self.console.print(
+                        "Enter after the [bold yellow]input[/bold yellow]: ", end=" "
+                    )
+                    index = getche()
+                    sleep(0.2)
 
                 if index.isdigit() and int(index) <= len(actions) + 1:
                     table_data_copy[times[current_selected_time]][
@@ -243,14 +261,11 @@ class TimeTable:
 
                 if index == "d" and current_selected_action < self.columns - 1:
                     current_selected_action += 1
-
-                if index == "a" and current_selected_action > 0:
+                elif index == "a" and current_selected_action > 0:
                     current_selected_action -= 1
-
-                if index == "w" and current_selected_time > 0:
+                elif index == "w" and current_selected_time > 0:
                     current_selected_time -= 1
-
-                if index == "s" and current_selected_time < len(times) - 1:
+                elif index == "s" and current_selected_time < len(times) - 1:
                     current_selected_time += 1
             except ValueError:
                 self.console.clear()

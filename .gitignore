@@ -6,4 +6,5 @@ venv
 *.svg
 *.md
 
+.vscode
 */__pycache__

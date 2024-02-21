@@ -3,13 +3,12 @@ from sys import argv, exit
 from args import ArgsParse
 from console import Terminal
 from error import Error
-from file import File
 from table import TimeTable
+from util import read_file
 
 args = ArgsParse().parse()
 error = Error()
 table = TimeTable()
-file = File()
 console = Terminal()
 
 if args.help or len(argv) == 1:
@@ -23,8 +22,8 @@ if args.action and args.time:
     table.create_table()
 
     try:
-        actions = file.read_action_file(args.action)
-        times = file.read_time_file(args.time)
+        actions = read_file(args.action)
+        times = read_file(args.time)
 
         if args.interactive:
             table.create_time_table_interactive(actions, times)
